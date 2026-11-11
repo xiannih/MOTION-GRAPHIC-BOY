@@ -1,0 +1,6 @@
+{
+  "name": "Motion Graphics Generator",
+  "description": "Studio-grade dark-mode Motion Graphics Generator with Brand Intake System, 1080x1350 GSAP Canvas Engine, and MediaRecorder Video Export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
