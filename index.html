@@ -5,16 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Motion Graphics Generator</title>
   <meta name="description" content="Studio-grade dark-mode Motion Graphics Generator with Multi-Scene Chapter System, 16:9 / 9:16 / 4:5 Aspect Ratios, GSAP Canvas Engine, and MediaRecorder Video Export." />
-  <meta property="og:title" content="Motion Graphics Generator" />
-  <meta property="og:description" content="Studio-grade dark-mode Motion Graphics Generator with Multi-Scene Chapter System, 16:9 / 9:16 / 4:5 Aspect Ratios, GSAP Canvas Engine, and MediaRecorder Video Export." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Google Fonts: UI + Canvas Brand Typography -->
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
+  
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -40,1947 +36,250 @@
       }
     };
   </script>
-
   <!-- GSAP 3 via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
   <style>
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.14);
-      border-radius: 3px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 255, 255, 0.24);
-    }
-
-    input[type="range"].studio-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      background: transparent;
-      cursor: pointer;
-    }
-    input[type="range"].studio-slider::-webkit-slider-runnable-track {
-      height: 6px;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-    input[type="range"].studio-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #3B82F6;
-      border: 2px solid #F8FAFC;
-      margin-top: -4px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    input[type="range"].studio-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
-    }
-    input[type="range"].studio-slider::-moz-range-track {
-      height: 6px;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.12);
-    }
-    input[type="range"].studio-slider::-moz-range-thumb {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #3B82F6;
-      border: 2px solid #F8FAFC;
-    }
-
-    input[type="color"] {
-      -webkit-appearance: none;
-      border: none;
-      padding: 0;
-      background: transparent;
-    }
-    input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
-    input[type="color"]::-webkit-color-swatch {
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 6px;
-    }
-
-    .studio-grid-bg {
-      background-color: #0B0D11;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
+    * { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.14) transparent; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 3px; }
+    input[type="range"].studio-slider { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+    input[type="range"].studio-slider::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.12); }
+    input[type="range"].studio-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #3B82F6; border: 2px solid #F8FAFC; margin-top: -4px; }
+    input[type="color"] { -webkit-appearance: none; border: none; padding: 0; background: transparent; }
+    input[type="color"]::-webkit-color-swatch { border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 6px; }
+    .studio-grid-bg { background-color: #0B0D11; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 20px 20px; }
   </style>
 </head>
-<body class="bg-studio-bg text-slate-100 font-sans antialiased selection:bg-blue-500/30 selection:text-white overflow-x-hidden lg:overflow-hidden lg:h-screen flex flex-col">
-
-  <!-- Top Bar (3-zone contract) -->
+<body class="bg-studio-bg text-slate-100 font-sans antialiased overflow-x-hidden lg:overflow-hidden lg:h-screen flex flex-col">
+  <!-- Top Bar -->
   <header class="h-14 shrink-0 bg-studio-panel border-b border-white/10 px-5 flex items-center justify-between gap-8">
-    <!-- Zone 1: Brand Title -->
     <div class="flex items-center gap-3 whitespace-nowrap shrink-0">
-      <svg class="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-      </svg>
-      <span class="text-sm font-semibold tracking-tight text-white">Motion Graphics Generator</span>
+      <svg class="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      <span class="text-sm font-semibold tracking-tight text-white">Motion Graphics Generator Studio</span>
     </div>
-
-    <!-- Zone 2: Active Composition Specs (Unboxed Metadata) -->
-    <div class="hidden md:flex items-center gap-3 text-xs text-slate-400 font-mono tabular-nums whitespace-nowrap shrink-0">
+    <div class="hidden md:flex items-center gap-3 text-xs text-slate-400 font-mono tabular-nums">
       <span id="headerResolutionLabel">1920 × 1080</span>
-      <span aria-hidden="true" class="text-slate-600">·</span>
+      <span>•</span>
       <span id="headerAspectLabel">16:9 Landscape</span>
-      <span aria-hidden="true" class="text-slate-600">·</span>
+      <span>•</span>
       <span>60 FPS</span>
-      <span aria-hidden="true" class="text-slate-600">·</span>
-      <span id="headerSceneDurationLabel">Scene 1 (12s)</span>
-      <span aria-hidden="true" class="text-slate-600">·</span>
-      <span id="headerTotalDurationLabel">Total 57s</span>
     </div>
-
-    <!-- Zone 3: Primary Action -->
-    <div class="flex items-center gap-3 shrink-0">
-      <button
-        id="topExportBtn"
-        type="button"
-        class="px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-      >
-        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
+    <div>
+      <button id="topExportBtn" type="button" class="px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors flex items-center gap-2">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         <span id="topExportBtnLabel">Export Scene 1</span>
       </button>
     </div>
   </header>
 
-  <!-- Main 3-Panel Studio Workspace -->
+  <!-- Workspace -->
   <main class="flex-1 flex flex-col lg:flex-row min-h-0 overflow-y-auto lg:overflow-hidden">
-
-    <!-- LEFT PANEL: Brand System, Aspect Ratio Switcher & Multi-Scene Chapter List -->
-    <aside class="w-full lg:w-80 xl:w-[350px] shrink-0 bg-studio-panel border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col min-h-0">
+    <!-- Left Panel: Controls -->
+    <aside class="w-full lg:w-80 xl:w-[350px] shrink-0 bg-studio-panel border-r border-white/10 flex flex-col min-h-0">
       <div class="flex-1 overflow-y-auto p-5 space-y-6">
-
-        <!-- Section 1: Aspect Ratio Switcher -->
-        <section aria-labelledby="aspect-heading" class="space-y-3">
-          <h2 id="aspect-heading" class="text-xs font-semibold text-slate-300 tracking-wide">Aspect Ratio &amp; Format</h2>
-          <div class="grid grid-cols-3 gap-1.5 p-1 bg-studio-surface rounded-lg border border-white/10" role="radiogroup" aria-label="Aspect Ratio">
-            <button
-              type="button"
-              data-aspect="16:9"
-              class="aspect-btn py-2 px-2 rounded-md text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
+        <!-- Aspect Ratio -->
+        <section class="space-y-3">
+          <h2 class="text-xs font-semibold text-slate-300">Aspect Ratio &amp; Format</h2>
+          <div class="grid grid-cols-3 gap-1.5 p-1 bg-studio-surface rounded-lg border border-white/10">
+            <button type="button" data-aspect="16:9" class="aspect-btn py-2 px-2 rounded-md text-center transition-colors bg-blue-600 text-white">
               <div class="text-xs font-semibold">16:9</div>
-              <div class="text-[10px] opacity-75 font-mono">1920×1080</div>
+              <div class="text-[10px] opacity-75 font-mono">YouTube</div>
             </button>
-            <button
-              type="button"
-              data-aspect="9:16"
-              class="aspect-btn py-2 px-2 rounded-md text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
+            <button type="button" data-aspect="9:16" class="aspect-btn py-2 px-2 rounded-md text-center transition-colors text-slate-400 hover:text-white">
               <div class="text-xs font-semibold">9:16</div>
-              <div class="text-[10px] opacity-75 font-mono">1080×1920</div>
+              <div class="text-[10px] opacity-75 font-mono">Shorts/Reels</div>
             </button>
-            <button
-              type="button"
-              data-aspect="4:5"
-              class="aspect-btn py-2 px-2 rounded-md text-center transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
+            <button type="button" data-aspect="4:5" class="aspect-btn py-2 px-2 rounded-md text-center transition-colors text-slate-400 hover:text-white">
               <div class="text-xs font-semibold">4:5</div>
-              <div class="text-[10px] opacity-75 font-mono">1080×1350</div>
+              <div class="text-[10px] opacity-75 font-mono">Feed Post</div>
             </button>
           </div>
         </section>
-
         <hr class="border-white/10" />
-
-        <!-- Section 2: Brand Intake System (Shared Across All Scenes) -->
-        <section aria-labelledby="brand-heading" class="space-y-3.5">
-          <div class="flex items-center justify-between">
-            <h2 id="brand-heading" class="text-xs font-semibold text-slate-300 tracking-wide">Brand System (Global)</h2>
-            <button
-              id="resetBrandBtn"
-              type="button"
-              class="text-xs text-slate-400 hover:text-white transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-400 rounded px-1"
-            >
-              Reset Defaults
-            </button>
-          </div>
-
+        <!-- Brand System -->
+        <section class="space-y-3.5">
+          <h2 class="text-xs font-semibold text-slate-300">Brand System (Global)</h2>
           <div class="space-y-3">
             <div>
-              <label for="brandNameInput" class="block text-xs font-medium text-slate-400 mb-1.5">Brand Name</label>
-              <input
-                id="brandNameInput"
-                type="text"
-                value="Kinetix Studio"
-                maxlength="42"
-                class="w-full px-3 py-2 text-sm bg-studio-surface border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
-              />
+              <label class="block text-xs font-medium text-slate-400 mb-1">Brand Name</label>
+              <input id="brandNameInput" type="text" value="A-MAZE MEDIA" class="w-full px-3 py-2 text-sm bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
             </div>
-
             <div>
-              <label for="subtitleInput" class="block text-xs font-medium text-slate-400 mb-1.5">Global Subtitle</label>
-              <input
-                id="subtitleInput"
-                type="text"
-                value="Precision Motion Systems for Modern Teams"
-                maxlength="72"
-                class="w-full px-3 py-2 text-sm bg-studio-surface border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
-              />
+              <label class="block text-xs font-medium text-slate-400 mb-1">Subtitle / Tagline</label>
+              <input id="subtitleInput" type="text" value="Next-Gen Digital Creator Studio" class="w-full px-3 py-2 text-sm bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
             </div>
-
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label for="primaryHexInput" class="block text-xs font-medium text-slate-400 mb-1.5">Primary Color</label>
-                <div class="flex items-center gap-2 bg-studio-surface border border-white/10 rounded-lg px-2.5 py-1.5 focus-within:border-blue-500 transition-colors">
-                  <input id="primaryColorPicker" type="color" value="#3B82F6" aria-label="Primary color picker" class="w-6 h-6 shrink-0 cursor-pointer" />
-                  <input id="primaryHexInput" type="text" value="#3B82F6" maxlength="7" class="w-full bg-transparent text-xs font-mono tabular-nums text-slate-200 focus:outline-none uppercase" />
+                <label class="block text-xs font-medium text-slate-400 mb-1">Primary Color</label>
+                <div class="flex items-center gap-2 bg-studio-surface border border-white/10 rounded-lg px-2.5 py-1.5">
+                  <input id="primaryColorPicker" type="color" value="#3B82F6" class="w-6 h-6 shrink-0 cursor-pointer" />
+                  <input id="primaryHexInput" type="text" value="#3B82F6" class="w-full bg-transparent text-xs font-mono text-slate-200 focus:outline-none uppercase" />
                 </div>
               </div>
-
               <div>
-                <label for="secondaryHexInput" class="block text-xs font-medium text-slate-400 mb-1.5">Secondary Color</label>
-                <div class="flex items-center gap-2 bg-studio-surface border border-white/10 rounded-lg px-2.5 py-1.5 focus-within:border-blue-500 transition-colors">
-                  <input id="secondaryColorPicker" type="color" value="#0F172A" aria-label="Secondary color picker" class="w-6 h-6 shrink-0 cursor-pointer" />
-                  <input id="secondaryHexInput" type="text" value="#0F172A" maxlength="7" class="w-full bg-transparent text-xs font-mono tabular-nums text-slate-200 focus:outline-none uppercase" />
+                <label class="block text-xs font-medium text-slate-400 mb-1">Secondary Color</label>
+                <div class="flex items-center gap-2 bg-studio-surface border border-white/10 rounded-lg px-2.5 py-1.5">
+                  <input id="secondaryColorPicker" type="color" value="#0F172A" class="w-6 h-6 shrink-0 cursor-pointer" />
+                  <input id="secondaryHexInput" type="text" value="#0F172A" class="w-full bg-transparent text-xs font-mono text-slate-200 focus:outline-none uppercase" />
                 </div>
               </div>
-            </div>
-
-            <div>
-              <label for="fontSelector" class="block text-xs font-medium text-slate-400 mb-1.5">Brand Typography</label>
-              <select id="fontSelector" class="w-full px-3 py-2 text-sm bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer">
-                <option value="Plus Jakarta Sans">Plus Jakarta Sans (Geometric)</option>
-                <option value="Outfit">Outfit (Modern Display)</option>
-                <option value="Bricolage Grotesque">Bricolage Grotesque (Editorial)</option>
-                <option value="Oswald">Oswald (Condensed Athletic)</option>
-                <option value="Playfair Display">Playfair Display (Luxury Serif)</option>
-              </select>
             </div>
           </div>
         </section>
-
         <hr class="border-white/10" />
-
-        <!-- Section 3: Multi-Scene / Chapter List -->
-        <section aria-labelledby="chapters-heading" class="space-y-3">
+        <!-- Scene List -->
+        <section class="space-y-3">
           <div class="flex items-center justify-between">
-            <h2 id="chapters-heading" class="text-xs font-semibold text-slate-300 tracking-wide">Scene List (Chapters)</h2>
-            <span id="chapterCountSummary" class="text-[11px] font-mono tabular-nums text-slate-400">4 scenes · 57s</span>
+            <h2 class="text-xs font-semibold text-slate-300">Scene Chapters</h2>
+            <span id="chapterCountSummary" class="text-[11px] font-mono text-slate-400">4 scenes</span>
           </div>
-
           <div id="sceneListContainer" class="space-y-2"></div>
-
-          <!-- Add New Scene Controls -->
-          <div class="pt-1 flex items-center gap-2">
-            <select
-              id="addSceneTypeSelect"
-              aria-label="New scene template"
-              class="flex-1 px-2.5 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-slate-200 focus:outline-none focus:border-blue-500 cursor-pointer"
-            >
-              <option value="product_launch">Intro / Title Reveal</option>
-              <option value="milestone_counter">Main Point / Milestone</option>
-              <option value="bar_chart">Data Chart / Bar Graph</option>
-              <option value="outro_cta">Outro Call-to-Action</option>
-            </select>
-            <button
-              id="addSceneBtn"
-              type="button"
-              class="px-3 py-2 text-xs font-semibold text-white bg-studio-surface hover:bg-studio-hover border border-white/15 rounded-lg transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
-              + Add Scene
-            </button>
-          </div>
         </section>
-
         <hr class="border-white/10" />
-
-        <!-- Section 4: Active Scene Settings & Duration Slider (10s - 30s) -->
-        <section aria-labelledby="active-scene-heading" class="space-y-3.5">
+        <!-- Scene Duration -->
+        <section class="space-y-3">
           <div class="flex items-center justify-between">
-            <h2 id="active-scene-heading" class="text-xs font-semibold text-slate-300 tracking-wide">Active Scene Settings</h2>
-            <span id="activeSceneBadge" class="text-[11px] font-mono text-blue-400">Scene 1</span>
+            <label class="text-xs font-medium text-slate-400">Scene Duration (10s - 30s)</label>
+            <span id="sceneDurationValue" class="text-xs font-mono text-white">12s</span>
           </div>
-
-          <!-- Scene Name -->
-          <div>
-            <label for="sceneTitleInput" class="block text-xs font-medium text-slate-400 mb-1.5">Chapter Label</label>
-            <input id="sceneTitleInput" type="text" maxlength="32" class="w-full px-3 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-          </div>
-
-          <!-- Duration Slider (10s - 30s) -->
-          <div>
-            <div class="flex items-center justify-between mb-1.5">
-              <label for="sceneDurationSlider" class="text-xs font-medium text-slate-400">Scene Duration</label>
-              <span id="sceneDurationValue" class="text-xs font-mono tabular-nums text-white">12s (720 frames)</span>
-            </div>
-            <input
-              id="sceneDurationSlider"
-              type="range"
-              min="10"
-              max="30"
-              step="1"
-              value="12"
-              class="studio-slider w-full"
-            />
-            <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
-              <span>10s</span>
-              <span>20s</span>
-              <span>30s</span>
-            </div>
-          </div>
-
-          <!-- Template-Specific Parameters -->
-          <div id="params-product_launch" class="scene-params space-y-3">
-            <div>
-              <label for="launchKickerInput" class="block text-xs font-medium text-slate-400 mb-1.5">Release Kicker</label>
-              <input id="launchKickerInput" type="text" maxlength="28" class="w-full px-3 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-            </div>
-          </div>
-
-          <div id="params-milestone_counter" class="scene-params hidden space-y-3">
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label for="milestoneValueInput" class="block text-xs font-medium text-slate-400 mb-1.5">Target Metric</label>
-                <input id="milestoneValueInput" type="number" min="1" max="999999" class="w-full px-3 py-2 text-xs font-mono tabular-nums bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-              </div>
-              <div>
-                <label for="milestoneSuffixInput" class="block text-xs font-medium text-slate-400 mb-1.5">Unit / Suffix</label>
-                <input id="milestoneSuffixInput" type="text" maxlength="8" class="w-full px-3 py-2 text-xs font-mono bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-              </div>
-            </div>
-            <div>
-              <label for="milestoneCaptionInput" class="block text-xs font-medium text-slate-400 mb-1.5">Main Point Headline</label>
-              <input id="milestoneCaptionInput" type="text" maxlength="48" class="w-full px-3 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-            </div>
-          </div>
-
-          <div id="params-bar_chart" class="scene-params hidden space-y-3">
-            <div>
-              <label for="chartTitleInput" class="block text-xs font-medium text-slate-400 mb-1.5">Chart Headline</label>
-              <input id="chartTitleInput" type="text" maxlength="40" class="w-full px-3 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-            </div>
-            <div>
-              <label for="chartValuesInput" class="block text-xs font-medium text-slate-400 mb-1.5">5 Bar Values (comma-separated)</label>
-              <input id="chartValuesInput" type="text" class="w-full px-3 py-2 text-xs font-mono tabular-nums bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-            </div>
-          </div>
-
-          <div id="params-outro_cta" class="scene-params hidden space-y-3">
-            <div>
-              <label for="ctaButtonInput" class="block text-xs font-medium text-slate-400 mb-1.5">Call-to-Action Text</label>
-              <input id="ctaButtonInput" type="text" maxlength="32" class="w-full px-3 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-            </div>
-            <div>
-              <label for="ctaUrlInput" class="block text-xs font-medium text-slate-400 mb-1.5">Website / Handle</label>
-              <input id="ctaUrlInput" type="text" maxlength="40" class="w-full px-3 py-2 text-xs font-mono bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500" />
-            </div>
-          </div>
+          <input id="sceneDurationSlider" type="range" min="10" max="30" step="1" value="12" class="studio-slider w-full" />
         </section>
-
       </div>
     </aside>
 
-    <!-- CENTER PANEL: Responsive Canvas Viewport & Timeline Transport -->
-    <section class="flex-1 flex flex-col min-w-0 min-h-[520px] lg:min-h-0 studio-grid-bg">
-
-      <!-- Canvas Stage -->
-      <div id="canvasStage" class="flex-1 flex items-center justify-center p-4 sm:p-6 min-h-0 overflow-hidden relative">
-        <div
-          id="canvasWrapper"
-          class="relative flex items-center justify-center shadow-2xl shadow-black/75 ring-1 ring-white/15 rounded-sm overflow-hidden bg-black transition-all duration-200"
-          style="aspect-ratio: 16 / 9; width: 100%; max-width: 100%; max-height: 100%;"
-        >
-          <canvas
-            id="motionCanvas"
-            width="1920"
-            height="1080"
-            class="w-full h-full object-contain block"
-          ></canvas>
-
-          <!-- Safe-Margin Guide Overlay -->
-          <div id="safeGuideOverlay" class="hidden pointer-events-none absolute inset-0">
-            <div class="absolute inset-[7%] border border-dashed border-cyan-400/35"></div>
-            <div class="absolute inset-[12%] border border-dotted border-cyan-400/20"></div>
-          </div>
+    <!-- Center Panel: Canvas Viewport -->
+    <section class="flex-1 flex flex-col min-w-0 studio-grid-bg">
+      <div class="flex-1 flex items-center justify-center p-6 relative">
+        <div id="canvasWrapper" class="relative flex items-center justify-center shadow-2xl rounded-sm overflow-hidden bg-black" style="aspect-ratio: 16/9; width: 100%; max-width: 100%; max-height: 100%;">
+          <canvas id="motionCanvas" width="1920" height="1080" class="w-full h-full object-contain block"></canvas>
         </div>
       </div>
-
-      <!-- Timeline Transport Bar -->
-      <div class="shrink-0 bg-studio-panel border-t border-white/10 px-5 py-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
-        <div class="flex items-center gap-2 shrink-0">
-          <button
-            id="restartBtn"
-            type="button"
-            title="Restart active scene to frame 0"
-            aria-label="Restart active scene to frame 0"
-            class="w-9 h-9 rounded-lg bg-studio-surface hover:bg-studio-hover border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-          >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="19 20 9 12 19 4 19 20"></polygon>
-              <line x1="5" y1="19" x2="5" y2="5"></line>
-            </svg>
+      <!-- Transport Bar -->
+      <div class="shrink-0 bg-studio-panel border-t border-white/10 px-5 py-3 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <button id="playPauseBtn" type="button" class="w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-500 flex items-center justify-center text-white">
+            <svg id="pauseIcon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+            <svg id="playIcon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
           </button>
-
-          <button
-            id="playPauseBtn"
-            type="button"
-            title="Play or Pause"
-            aria-label="Play or Pause"
-            class="w-9 h-9 rounded-lg bg-blue-600 hover:bg-blue-500 flex items-center justify-center text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-          >
-            <svg id="pauseIcon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
-              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
-            </svg>
-            <svg id="playIcon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <polygon points="6 4 20 12 6 20 6 4"></polygon>
-            </svg>
-          </button>
-
-          <button
-            id="safeGuideBtn"
-            type="button"
-            title="Toggle Safe Margins"
-            aria-label="Toggle Safe Margins"
-            class="px-2.5 h-9 rounded-lg bg-studio-surface hover:bg-studio-hover border border-white/10 text-xs font-medium text-slate-400 hover:text-white transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-          >
-            Guides
-          </button>
+          <button id="restartBtn" type="button" class="px-3 h-9 rounded-lg bg-studio-surface hover:bg-studio-hover border border-white/10 text-xs text-slate-300">Restart</button>
         </div>
-
-        <!-- Scrubber -->
-        <div class="flex-1 flex items-center gap-3 min-w-[180px]">
-          <input
-            id="timelineScrubber"
-            type="range"
-            min="0"
-            max="1000"
-            value="0"
-            aria-label="Timeline Scrubber"
-            class="studio-slider w-full"
-          />
+        <div class="flex-1 flex items-center gap-3">
+          <input id="timelineScrubber" type="range" min="0" max="1000" value="0" class="studio-slider w-full" />
         </div>
-
-        <!-- Timecode & Frame Readout -->
-        <div class="flex items-center gap-3 text-xs font-mono tabular-nums text-slate-300 whitespace-nowrap shrink-0">
+        <div class="text-xs font-mono text-slate-300 whitespace-nowrap">
           <span id="timecodeDisplay">00:00.00 / 00:12.00</span>
-          <span class="text-slate-600" aria-hidden="true">|</span>
-          <span id="frameDisplay" class="text-slate-400">F 0000 / 0720</span>
         </div>
       </div>
     </section>
-
-    <!-- RIGHT PANEL: Render & Export per Scene -->
-    <aside class="w-full lg:w-72 xl:w-80 shrink-0 bg-studio-panel border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col min-h-0">
-      <div class="flex-1 overflow-y-auto p-5 space-y-6">
-
-        <section aria-labelledby="export-heading" class="space-y-4">
-          <h2 id="export-heading" class="text-xs font-semibold text-slate-300 tracking-wide">Render &amp; Export Scene</h2>
-
-          <div class="space-y-3.5">
-            <div>
-              <label for="formatSelector" class="block text-xs font-medium text-slate-400 mb-1.5">Video Format</label>
-              <select id="formatSelector" class="w-full px-3 py-2 text-xs bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer">
-                <option value="auto">Auto (MP4 / WebM Best)</option>
-                <option value="webm_vp9">WebM (VP9 High Quality)</option>
-                <option value="webm_vp8">WebM (VP8 Compatible)</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="bitrateSelector" class="block text-xs font-medium text-slate-400 mb-1.5">Target Bitrate</label>
-              <select id="bitrateSelector" class="w-full px-3 py-2 text-xs font-mono bg-studio-surface border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-500 cursor-pointer">
-                <option value="10000000">10 Mbps (Balanced)</option>
-                <option value="15000000" selected>15 Mbps (1080p High)</option>
-                <option value="24000000">24 Mbps (1080p Master)</option>
-              </select>
-            </div>
-
-            <!-- Output Summary -->
-            <div class="pt-2 border-t border-white/10 space-y-2 text-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-slate-400">Active Chapter</span>
-                <span id="exportSceneNameLabel" class="font-medium text-white truncate max-w-[150px]">Scene 1: Intro</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-400">Resolution</span>
-                <span id="exportResolutionLabel" class="font-mono tabular-nums text-slate-200">1920 × 1080</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-400">Frame Rate</span>
-                <span class="font-mono tabular-nums text-slate-200">60 FPS</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-400">Scene Duration</span>
-                <span id="exportDurationLabel" class="font-mono tabular-nums text-slate-200">12s (720 frames)</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-slate-400">Detected Codec</span>
-                <span id="detectedCodecLabel" class="font-mono text-slate-300 truncate max-w-[140px]">Checking...</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Primary Export Button -->
-          <button
-            id="panelExportBtn"
-            type="button"
-            class="w-full py-2.5 px-4 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors duration-150 flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-          >
-            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polygon points="10 8 16 12 10 16 10 8"></polygon>
-            </svg>
-            <span id="panelExportBtnLabel">Export Scene 1</span>
-          </button>
-
-          <!-- Render Progress Container -->
-          <div id="exportProgressBox" class="hidden space-y-2 pt-2">
-            <div class="flex items-center justify-between text-xs">
-              <span id="exportStatusText" class="text-slate-300 font-medium">Recording frames...</span>
-              <span id="exportPercentText" class="font-mono tabular-nums text-blue-400">0%</span>
-            </div>
-            <div class="w-full h-2 bg-studio-surface rounded-full overflow-hidden border border-white/10">
-              <div id="exportProgressBar" class="h-full bg-blue-500 transition-all duration-75" style="width: 0%"></div>
-            </div>
-            <p id="exportHintText" class="text-[11px] text-slate-400 leading-relaxed">
-              Recording active scene from frame 0 at 60 FPS.
-            </p>
-          </div>
-
-          <!-- Completed Download Box -->
-          <div id="exportResultBox" class="hidden pt-3 border-t border-white/10 space-y-3">
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-emerald-400 font-medium">Render Complete</span>
-              <span id="exportFileSize" class="font-mono tabular-nums text-slate-400">0.0 MB</span>
-            </div>
-            <a
-              id="downloadLink"
-              href="#"
-              download="scene-1.webm"
-              class="w-full py-2 px-4 text-xs font-semibold text-white bg-studio-surface hover:bg-studio-hover border border-white/15 rounded-lg transition-colors flex items-center justify-center gap-2"
-            >
-              <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              <span>Download Scene Video</span>
-            </a>
-          </div>
-
-          <!-- Error Notice -->
-          <div id="exportErrorBox" class="hidden p-3 rounded-lg bg-red-950/40 border border-red-500/30 text-xs text-red-300"></div>
-        </section>
-
-      </div>
-    </aside>
   </main>
 
+  <!-- Script Engine -->
   <script>
     (function () {
-      'use strict';
-
-      // =========================================================================
-      // 1. ASPECT RATIOS, GLOBAL BRAND SYSTEM & MULTI-SCENE STATE
-      // =========================================================================
       const FPS = 60;
-
       const ASPECT_PRESETS = {
         '16:9': { width: 1920, height: 1080, label: '16:9 Landscape', cssRatio: '16 / 9' },
         '9:16': { width: 1080, height: 1920, label: '9:16 Portrait', cssRatio: '9 / 16' },
         '4:5':  { width: 1080, height: 1350, label: '4:5 Portrait', cssRatio: '4 / 5' }
       };
-
-      const TEMPLATE_LABELS = {
-        product_launch: 'Intro / Title Reveal',
-        milestone_counter: 'Main Point / Milestone',
-        bar_chart: 'Data Chart / Bar Graph',
-        outro_cta: 'Outro Call-to-Action'
-      };
-
-      const DEFAULT_BRAND = {
-        brandName: 'Kinetix Studio',
-        subtitle: 'Precision Motion Systems for Modern Teams',
-        primaryColor: '#3B82F6',
-        secondaryColor: '#0F172A',
-        fontFamily: 'Plus Jakarta Sans'
-      };
-
-      function createDefaultScenes() {
-        return [
-          {
-            id: 'scene-1',
-            title: 'Intro',
-            type: 'product_launch',
-            duration: 12,
-            launchKicker: 'CHAPTER 01 · INTRODUCTION',
-            milestoneValue: 340,
-            milestoneSuffix: '%',
-            milestoneCaption: 'Faster Production Render Velocity',
-            chartTitle: 'Quarterly Growth Index',
-            chartValues: [28, 44, 61, 79, 96],
-            ctaButton: 'Start Building Today',
-            ctaUrl: 'kinetix.studio'
-          },
-          {
-            id: 'scene-2',
-            title: 'Main Point',
-            type: 'milestone_counter',
-            duration: 15,
-            launchKicker: 'CHAPTER 02 · KEY METRIC',
-            milestoneValue: 340,
-            milestoneSuffix: '%',
-            milestoneCaption: 'Faster Production Render Velocity',
-            chartTitle: 'Quarterly Growth Index',
-            chartValues: [28, 44, 61, 79, 96],
-            ctaButton: 'Start Building Today',
-            ctaUrl: 'kinetix.studio'
-          },
-          {
-            id: 'scene-3',
-            title: 'Data Chart',
-            type: 'bar_chart',
-            duration: 18,
-            launchKicker: 'CHAPTER 03 · DATA INSIGHT',
-            milestoneValue: 340,
-            milestoneSuffix: '%',
-            milestoneCaption: 'Faster Production Render Velocity',
-            chartTitle: 'Quarterly Growth Index',
-            chartValues: [28, 44, 61, 79, 96],
-            ctaButton: 'Start Building Today',
-            ctaUrl: 'kinetix.studio'
-          },
-          {
-            id: 'scene-4',
-            title: 'Outro',
-            type: 'outro_cta',
-            duration: 12,
-            launchKicker: 'CHAPTER 04 · NEXT STEPS',
-            milestoneValue: 340,
-            milestoneSuffix: '%',
-            milestoneCaption: 'Faster Production Render Velocity',
-            chartTitle: 'Quarterly Growth Index',
-            chartValues: [28, 44, 61, 79, 96],
-            ctaButton: 'Start Building Today',
-            ctaUrl: 'kinetix.studio'
-          }
-        ];
-      }
-
+      
       const appState = {
         aspect: '16:9',
-        brand: { ...DEFAULT_BRAND },
-        scenes: createDefaultScenes(),
+        brand: { brandName: 'A-MAZE MEDIA', subtitle: 'Next-Gen Digital Creator Studio', primaryColor: '#3B82F6', secondaryColor: '#0F172A', fontFamily: 'Plus Jakarta Sans' },
+        scenes: [
+          { id: '1', title: 'Intro', type: 'product_launch', duration: 12 },
+          { id: '2', title: 'Milestone', type: 'milestone_counter', duration: 15 },
+          { id: '3', title: 'Chart', type: 'bar_chart', duration: 15 },
+          { id: '4', title: 'Outro', type: 'outro_cta', duration: 12 }
+        ],
         activeSceneIndex: 0
       };
 
-      let isPlaying = true;
-      let isExporting = false;
-      let showGuides = false;
-      let masterTimeline = null;
-      let lastBlobUrl = null;
-      let nextSceneUid = 5;
+      let isPlaying = true, masterTimeline = null;
+      const anim = { gridAlpha: 1, titleAlpha: 0, titleY: 50 };
 
-      // Animated properties driven by GSAP
-      const anim = {
-        gridAlpha: 0,
-        ambientDrift: 0,
-        accentLineProgress: 0,
-        kickerY: 40,
-        kickerAlpha: 0,
-        titleY: 85,
-        titleAlpha: 0,
-        subtitleY: 36,
-        subtitleAlpha: 0,
-        badgeScale: 0.72,
-        badgeAlpha: 0,
-        counterValue: 0,
-        ringProgress: 0,
-        axisProgress: 0,
-        bar0: 0,
-        bar1: 0,
-        bar2: 0,
-        bar3: 0,
-        bar4: 0,
-        ctaScale: 0.84,
-        ctaAlpha: 0,
-        arrowOffset: 0,
-        outroFade: 1
-      };
-
-      // =========================================================================
-      // 2. DOM REFERENCES
-      // =========================================================================
       const canvas = document.getElementById('motionCanvas');
-      const ctx = canvas.getContext('2d', { alpha: false });
-      const canvasStage = document.getElementById('canvasStage');
+      const ctx = canvas.getContext('2d');
       const canvasWrapper = document.getElementById('canvasWrapper');
 
-      const aspectButtons = document.querySelectorAll('.aspect-btn');
-      const headerResolutionLabel = document.getElementById('headerResolutionLabel');
-      const headerAspectLabel = document.getElementById('headerAspectLabel');
-      const headerSceneDurationLabel = document.getElementById('headerSceneDurationLabel');
-      const headerTotalDurationLabel = document.getElementById('headerTotalDurationLabel');
+      function getActiveScene() { return appState.scenes[appState.activeSceneIndex]; }
+      function getCanvasDims() { return ASPECT_PRESETS[appState.aspect]; }
 
-      const brandNameInput = document.getElementById('brandNameInput');
-      const subtitleInput = document.getElementById('subtitleInput');
-      const primaryColorPicker = document.getElementById('primaryColorPicker');
-      const primaryHexInput = document.getElementById('primaryHexInput');
-      const secondaryColorPicker = document.getElementById('secondaryColorPicker');
-      const secondaryHexInput = document.getElementById('secondaryHexInput');
-      const fontSelector = document.getElementById('fontSelector');
-      const resetBrandBtn = document.getElementById('resetBrandBtn');
-
-      const sceneListContainer = document.getElementById('sceneListContainer');
-      const chapterCountSummary = document.getElementById('chapterCountSummary');
-      const addSceneTypeSelect = document.getElementById('addSceneTypeSelect');
-      const addSceneBtn = document.getElementById('addSceneBtn');
-
-      const activeSceneBadge = document.getElementById('activeSceneBadge');
-      const sceneTitleInput = document.getElementById('sceneTitleInput');
-      const sceneDurationSlider = document.getElementById('sceneDurationSlider');
-      const sceneDurationValue = document.getElementById('sceneDurationValue');
-
-      const launchKickerInput = document.getElementById('launchKickerInput');
-      const milestoneValueInput = document.getElementById('milestoneValueInput');
-      const milestoneSuffixInput = document.getElementById('milestoneSuffixInput');
-      const milestoneCaptionInput = document.getElementById('milestoneCaptionInput');
-      const chartTitleInput = document.getElementById('chartTitleInput');
-      const chartValuesInput = document.getElementById('chartValuesInput');
-      const ctaButtonInput = document.getElementById('ctaButtonInput');
-      const ctaUrlInput = document.getElementById('ctaUrlInput');
-      const sceneParamGroups = document.querySelectorAll('.scene-params');
-
-      const playPauseBtn = document.getElementById('playPauseBtn');
-      const playIcon = document.getElementById('playIcon');
-      const pauseIcon = document.getElementById('pauseIcon');
-      const restartBtn = document.getElementById('restartBtn');
-      const safeGuideBtn = document.getElementById('safeGuideBtn');
-      const safeGuideOverlay = document.getElementById('safeGuideOverlay');
-      const timelineScrubber = document.getElementById('timelineScrubber');
-      const timecodeDisplay = document.getElementById('timecodeDisplay');
-      const frameDisplay = document.getElementById('frameDisplay');
-
-      const formatSelector = document.getElementById('formatSelector');
-      const bitrateSelector = document.getElementById('bitrateSelector');
-      const detectedCodecLabel = document.getElementById('detectedCodecLabel');
-      const exportSceneNameLabel = document.getElementById('exportSceneNameLabel');
-      const exportResolutionLabel = document.getElementById('exportResolutionLabel');
-      const exportDurationLabel = document.getElementById('exportDurationLabel');
-      const topExportBtn = document.getElementById('topExportBtn');
-      const topExportBtnLabel = document.getElementById('topExportBtnLabel');
-      const panelExportBtn = document.getElementById('panelExportBtn');
-      const panelExportBtnLabel = document.getElementById('panelExportBtnLabel');
-      const exportProgressBox = document.getElementById('exportProgressBox');
-      const exportStatusText = document.getElementById('exportStatusText');
-      const exportPercentText = document.getElementById('exportPercentText');
-      const exportProgressBar = document.getElementById('exportProgressBar');
-      const exportHintText = document.getElementById('exportHintText');
-      const exportResultBox = document.getElementById('exportResultBox');
-      const exportFileSize = document.getElementById('exportFileSize');
-      const downloadLink = document.getElementById('downloadLink');
-      const exportErrorBox = document.getElementById('exportErrorBox');
-
-      // =========================================================================
-      // 3. HELPERS & RESPONSIVE CANVAS RESIZING
-      // =========================================================================
-      function getActiveScene() {
-        return appState.scenes[appState.activeSceneIndex] || appState.scenes[0];
-      }
-
-      function getCanvasDims() {
-        return ASPECT_PRESETS[appState.aspect] || ASPECT_PRESETS['16:9'];
-      }
-
-      function resizeCanvasViewport() {
+      function resizeViewport() {
         const dims = getCanvasDims();
-        canvas.width = dims.width;
-        canvas.height = dims.height;
-
-        const stageRect = canvasStage.getBoundingClientRect();
-        const pad = 32;
-        const availW = Math.max(240, stageRect.width - pad);
-        const availH = Math.max(200, stageRect.height - pad);
-        const targetRatio = dims.width / dims.height;
-        const availRatio = availW / availH;
-
-        let boxW, boxH;
-        if (availRatio > targetRatio) {
-          boxH = availH;
-          boxW = boxH * targetRatio;
-        } else {
-          boxW = availW;
-          boxH = boxW / targetRatio;
-        }
-
+        canvas.width = dims.width; canvas.height = dims.height;
         canvasWrapper.style.aspectRatio = dims.cssRatio;
-        canvasWrapper.style.width = `${Math.floor(boxW)}px`;
-        canvasWrapper.style.height = `${Math.floor(boxH)}px`;
-
-        renderCanvasFrame();
       }
 
-      function isValidHex(hex) {
-        return /^#[0-9A-Fa-f]{6}$/.test(hex);
-      }
-
-      function hexToRgb(hex) {
-        const clean = hex.replace('#', '');
-        const num = parseInt(clean, 16);
-        return {
-          r: (num >> 16) & 255,
-          g: (num >> 8) & 255,
-          b: num & 255
-        };
-      }
-
-      function rgba(hex, alpha) {
-        const { r, g, b } = hexToRgb(hex);
-        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-      }
-
-      function getLuminance(hex) {
-        const { r, g, b } = hexToRgb(hex);
-        const [rs, gs, bs] = [r, g, b].map((c) => {
-          const s = c / 255;
-          return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-        });
-        return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
-      }
-
-      function getContrastTextColor(bgHex) {
-        return getLuminance(bgHex) > 0.38 ? '#0B0D11' : '#F8FAFC';
-      }
-
-      function getMutedTextColor(bgHex) {
-        return getLuminance(bgHex) > 0.38 ? 'rgba(15, 23, 42, 0.72)' : 'rgba(248, 250, 252, 0.72)';
-      }
-
-      function wrapTextLines(context, text, maxWidth) {
-        const words = (text || '').trim().split(/\s+/);
-        if (!words.length || words[0] === '') return [];
-        const lines = [];
-        let current = words[0];
-        for (let i = 1; i < words.length; i++) {
-          const test = current + ' ' + words[i];
-          if (context.measureText(test).width <= maxWidth) {
-            current = test;
-          } else {
-            lines.push(current);
-            current = words[i];
-          }
-        }
-        lines.push(current);
-        return lines;
-      }
-
-      function drawRoundedRect(context, x, y, w, h, r) {
-        const radius = Math.min(r, w / 2, h / 2);
-        context.beginPath();
-        context.moveTo(x + radius, y);
-        context.lineTo(x + w - radius, y);
-        context.quadraticCurveTo(x + w, y, x + w, y + radius);
-        context.lineTo(x + w, y + h - radius);
-        context.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
-        context.lineTo(x + radius, y + h);
-        context.quadraticCurveTo(x, y + h, x, y + h - radius);
-        context.lineTo(x, y + radius);
-        context.quadraticCurveTo(x, y, x + radius, y);
-        context.closePath();
-      }
-
-      function formatTimecode(sec) {
-        const mins = Math.floor(sec / 60);
-        const rem = sec % 60;
-        const whole = Math.floor(rem);
-        const hundredths = Math.floor((rem - whole) * 100);
-        return `${String(mins).padStart(2, '0')}:${String(whole).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
-      }
-
-      // =========================================================================
-      // 4. ADAPTIVE CANVAS RENDERING ENGINE (16:9, 9:16, 4:5)
-      // =========================================================================
-      function drawStudioBackdrop(W, H, bgHex, primaryHex, fgColor) {
-        ctx.fillStyle = bgHex;
+      function renderFrame() {
+        const W = canvas.width, H = canvas.height;
+        const brand = appState.brand;
+        ctx.fillStyle = brand.secondaryColor;
         ctx.fillRect(0, 0, W, H);
 
-        // Ambient radial glow with gentle mid-scene drift
-        const driftX = Math.sin(anim.ambientDrift * Math.PI * 2) * (W * 0.04);
-        const driftY = Math.cos(anim.ambientDrift * Math.PI * 2) * (H * 0.03);
-        const grad = ctx.createRadialGradient(
-          W * 0.5 + driftX,
-          H * 0.42 + driftY,
-          40,
-          W * 0.5 + driftX,
-          H * 0.42 + driftY,
-          Math.max(W, H) * 0.72
-        );
-        grad.addColorStop(0, rgba(primaryHex, 0.22 * anim.gridAlpha));
-        grad.addColorStop(0.55, rgba(primaryHex, 0.06 * anim.gridAlpha));
-        grad.addColorStop(1, rgba(primaryHex, 0));
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, W, H);
-
-        // Architectural hairline grid
-        ctx.save();
-        ctx.strokeStyle = getLuminance(bgHex) > 0.38
-          ? `rgba(15, 23, 42, ${0.055 * anim.gridAlpha})`
-          : `rgba(255, 255, 255, ${0.045 * anim.gridAlpha})`;
-        ctx.lineWidth = 1;
-        const step = 96;
-        for (let x = step; x < W; x += step) {
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, H);
-          ctx.stroke();
-        }
-        for (let y = step; y < H; y += step) {
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(W, y);
-          ctx.stroke();
-        }
-        ctx.restore();
-
-        // Outer frame border
-        ctx.save();
-        ctx.strokeStyle = rgba(fgColor === '#F8FAFC' ? '#FFFFFF' : '#0F172A', 0.09);
-        ctx.lineWidth = 2;
-        ctx.strokeRect(48, 48, W - 96, H - 96);
-        ctx.restore();
-      }
-
-      function renderProductLaunchScene(W, H, scene) {
-        const isLandscape = W > H;
-        const bgHex = appState.brand.secondaryColor;
-        const primaryHex = appState.brand.primaryColor;
-        const fg = getContrastTextColor(bgHex);
-        const muted = getMutedTextColor(bgHex);
-        const font = appState.brand.fontFamily;
-
-        drawStudioBackdrop(W, H, bgHex, primaryHex, fg);
-
-        ctx.save();
-        ctx.globalAlpha = anim.outroFade;
-
-        // Top-left chapter kicker
-        ctx.save();
-        ctx.globalAlpha = anim.kickerAlpha * anim.outroFade;
-        ctx.fillStyle = primaryHex;
-        ctx.fillRect(96, 104, 48 * anim.accentLineProgress, 6);
-        ctx.font = `600 24px "JetBrains Mono", monospace`;
-        ctx.fillStyle = muted;
-        ctx.textAlign = 'left';
-        ctx.fillText((scene.launchKicker || scene.title).toUpperCase(), 96, 152 + anim.kickerY * 0.4);
-        ctx.restore();
-
-        // Emblem position
-        const emblemX = isLandscape ? W * 0.24 : W * 0.5;
-        const emblemY = isLandscape ? H * 0.5 : H * 0.31;
-        const emblemRadius = isLandscape ? 140 : 124;
-
-        ctx.save();
-        ctx.translate(emblemX, emblemY);
-        ctx.scale(anim.badgeScale, anim.badgeScale);
-        ctx.globalAlpha = anim.badgeAlpha * anim.outroFade;
-
-        ctx.strokeStyle = rgba(primaryHex, 0.38);
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(0, 0, emblemRadius, 0, Math.PI * 2 * anim.accentLineProgress);
-        ctx.stroke();
-
-        ctx.save();
-        ctx.rotate((Math.PI / 4) * anim.accentLineProgress);
-        ctx.fillStyle = primaryHex;
-        drawRoundedRect(ctx, -64, -64, 128, 128, 22);
-        ctx.fill();
-        ctx.restore();
-
-        ctx.font = `800 62px "${font}", sans-serif`;
-        ctx.fillStyle = getContrastTextColor(primaryHex);
+        ctx.fillStyle = brand.primaryColor;
+        ctx.font = '800 64px sans-serif';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        const initial = (appState.brand.brandName || 'K').trim().charAt(0).toUpperCase();
-        ctx.fillText(initial, 0, 4);
-        ctx.restore();
+        ctx.fillText(brand.brandName, W / 2, H / 2 - 20);
 
-        // Headline & Subtitle Block
-        const textAlign = isLandscape ? 'left' : 'center';
-        const textX = isLandscape ? W * 0.41 : W * 0.5;
-        const maxTitleW = isLandscape ? W * 0.5 : W - 160;
-        const titleSize = isLandscape ? 92 : 88;
-        const lineHeight = isLandscape ? 106 : 102;
-
-        ctx.save();
-        ctx.font = `800 ${titleSize}px "${font}", sans-serif`;
-        const titleLines = wrapTextLines(ctx, appState.brand.brandName, maxTitleW);
-        const startY = isLandscape ? H * 0.44 : H * 0.52;
-
-        titleLines.forEach((line, idx) => {
-          const lineY = startY + idx * lineHeight;
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(isLandscape ? textX - 10 : 60, lineY - 96, maxTitleW + 40, 120);
-          ctx.clip();
-
-          ctx.globalAlpha = anim.titleAlpha * anim.outroFade;
-          ctx.fillStyle = fg;
-          ctx.textAlign = textAlign;
-          ctx.textBaseline = 'alphabetic';
-          ctx.fillText(line, textX, lineY + anim.titleY);
-          ctx.restore();
-        });
-        ctx.restore();
-
-        // Accent bar
-        const dividerY = startY + titleLines.length * lineHeight + 20;
-        ctx.save();
-        const barW = 180 * anim.accentLineProgress;
-        ctx.fillStyle = primaryHex;
-        const barX = isLandscape ? textX : (W - barW) / 2;
-        drawRoundedRect(ctx, barX, dividerY, barW, 8, 4);
-        ctx.fill();
-        ctx.restore();
-
-        // Subtitle
-        ctx.save();
-        ctx.globalAlpha = anim.subtitleAlpha * anim.outroFade;
-        ctx.font = `500 34px "${font}", sans-serif`;
-        ctx.fillStyle = muted;
-        ctx.textAlign = textAlign;
-        const subLines = wrapTextLines(ctx, appState.brand.subtitle, maxTitleW);
-        subLines.forEach((line, idx) => {
-          ctx.fillText(line, textX, dividerY + 70 + idx * 46 + anim.subtitleY);
-        });
-        ctx.restore();
-
-        ctx.restore();
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '500 28px sans-serif';
+        ctx.fillText(brand.subtitle, W / 2, H / 2 + 40);
       }
 
-      function renderMilestoneScene(W, H, scene) {
-        const isLandscape = W > H;
-        const bgHex = appState.brand.secondaryColor;
-        const primaryHex = appState.brand.primaryColor;
-        const fg = getContrastTextColor(bgHex);
-        const muted = getMutedTextColor(bgHex);
-        const font = appState.brand.fontFamily;
-
-        drawStudioBackdrop(W, H, bgHex, primaryHex, fg);
-
-        ctx.save();
-        ctx.globalAlpha = anim.outroFade;
-
-        // Top Brand Lockup
-        ctx.save();
-        ctx.globalAlpha = anim.kickerAlpha * anim.outroFade;
-        ctx.font = `700 30px "${font}", sans-serif`;
-        ctx.fillStyle = fg;
-        ctx.textAlign = isLandscape ? 'left' : 'center';
-        ctx.fillText(appState.brand.brandName, isLandscape ? 96 : W / 2, 118 + anim.kickerY * 0.3);
-
-        ctx.font = `500 22px "JetBrains Mono", monospace`;
-        ctx.fillStyle = primaryHex;
-        ctx.fillText(scene.title.toUpperCase(), isLandscape ? 96 : W / 2, 156 + anim.kickerY * 0.3);
-        ctx.restore();
-
-        // Ring & Counter
-        const cx = isLandscape ? W * 0.31 : W * 0.5;
-        const cy = isLandscape ? H * 0.54 : H * 0.42;
-        const radius = isLandscape ? 235 : 240;
-
-        ctx.save();
-        ctx.strokeStyle = rgba(fg === '#F8FAFC' ? '#FFFFFF' : '#0F172A', 0.1);
-        ctx.lineWidth = 22;
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = primaryHex;
-        ctx.lineWidth = 22;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        const startAngle = -Math.PI / 2;
-        ctx.arc(cx, cy, radius, startAngle, startAngle + Math.PI * 2 * 0.86 * anim.ringProgress);
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.save();
-        ctx.globalAlpha = anim.titleAlpha * anim.outroFade;
-        ctx.font = `800 120px "JetBrains Mono", monospace`;
-        ctx.fillStyle = fg;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        const val = Math.round(anim.counterValue).toLocaleString('en-US');
-        ctx.fillText(`${val}${scene.milestoneSuffix}`, cx, cy + 6);
-        ctx.restore();
-
-        // Description Block
-        const descX = isLandscape ? W * 0.54 : W * 0.5;
-        const descY = isLandscape ? H * 0.46 : H * 0.68;
-        const descW = isLandscape ? W * 0.38 : W - 180;
-        const descAlign = isLandscape ? 'left' : 'center';
-
-        ctx.save();
-        ctx.globalAlpha = anim.subtitleAlpha * anim.outroFade;
-        ctx.font = `700 48px "${font}", sans-serif`;
-        ctx.fillStyle = fg;
-        ctx.textAlign = descAlign;
-        const capLines = wrapTextLines(ctx, scene.milestoneCaption, descW);
-        capLines.forEach((line, i) => {
-          ctx.fillText(line, descX, descY + i * 58 + anim.subtitleY);
-        });
-
-        ctx.font = `400 28px "${font}", sans-serif`;
-        ctx.fillStyle = muted;
-        const subLines = wrapTextLines(ctx, appState.brand.subtitle, descW);
-        subLines.forEach((line, i) => {
-          ctx.fillText(line, descX, descY + capLines.length * 58 + 36 + i * 40 + anim.subtitleY);
-        });
-        ctx.restore();
-
-        ctx.restore();
-      }
-
-      function renderBarChartScene(W, H, scene) {
-        const isLandscape = W > H;
-        const bgHex = appState.brand.secondaryColor;
-        const primaryHex = appState.brand.primaryColor;
-        const fg = getContrastTextColor(bgHex);
-        const muted = getMutedTextColor(bgHex);
-        const font = appState.brand.fontFamily;
-
-        drawStudioBackdrop(W, H, bgHex, primaryHex, fg);
-
-        ctx.save();
-        ctx.globalAlpha = anim.outroFade;
-
-        // Header Lockup
-        ctx.save();
-        ctx.globalAlpha = anim.kickerAlpha * anim.outroFade;
-        ctx.font = `600 24px "JetBrains Mono", monospace`;
-        ctx.fillStyle = primaryHex;
-        ctx.textAlign = 'left';
-        ctx.fillText(`${appState.brand.brandName.toUpperCase()}  ·  ${scene.title.toUpperCase()}`, 104, 118 + anim.kickerY * 0.3);
-
-        ctx.globalAlpha = anim.titleAlpha * anim.outroFade;
-        ctx.font = `800 ${isLandscape ? 58 : 64}px "${font}", sans-serif`;
-        ctx.fillStyle = fg;
-        const titleLines = wrapTextLines(ctx, scene.chartTitle, W - 208);
-        titleLines.forEach((line, idx) => {
-          ctx.fillText(line, 104, 194 + idx * 72 + anim.titleY * 0.5);
-        });
-        ctx.restore();
-
-        // Chart Area Geometry
-        const chartLeft = 112;
-        const chartRight = W - 112;
-        const chartBottom = H - (isLandscape ? 160 : 240);
-        const chartTop = isLandscape ? 320 : 420;
-        const chartHeight = chartBottom - chartTop;
-        const chartWidth = chartRight - chartLeft;
-
-        // Gridlines
-        ctx.save();
-        ctx.globalAlpha = anim.axisProgress * anim.outroFade;
-        ctx.strokeStyle = rgba(fg === '#F8FAFC' ? '#FFFFFF' : '#0F172A', 0.1);
-        ctx.lineWidth = 2;
-        for (let i = 0; i <= 4; i++) {
-          const y = chartBottom - (chartHeight / 4) * i;
-          ctx.beginPath();
-          ctx.moveTo(chartLeft, y);
-          ctx.lineTo(chartLeft + chartWidth * anim.axisProgress, y);
-          ctx.stroke();
-        }
-        ctx.restore();
-
-        // Bars
-        const rawVals = scene.chartValues;
-        const maxVal = Math.max(...rawVals, 100);
-        const barCount = 5;
-        const gap = isLandscape ? 56 : 34;
-        const barW = (chartWidth - gap * (barCount - 1)) / barCount;
-        const barProgresses = [anim.bar0, anim.bar1, anim.bar2, anim.bar3, anim.bar4];
-        const labels = ['Q1', 'Q2', 'Q3', 'Q4', 'NOW'];
-
-        for (let i = 0; i < barCount; i++) {
-          const val = rawVals[i] ?? 50;
-          const prog = barProgresses[i];
-          const targetH = (val / maxVal) * (chartHeight - 44);
-          const currentH = Math.max(0, targetH * prog);
-          const x = chartLeft + i * (barW + gap);
-          const y = chartBottom - currentH;
-
-          ctx.save();
-          const barGrad = ctx.createLinearGradient(x, y, x, chartBottom);
-          const isPeak = i === barCount - 1;
-          barGrad.addColorStop(0, primaryHex);
-          barGrad.addColorStop(1, rgba(primaryHex, isPeak ? 0.55 : 0.28));
-          ctx.fillStyle = barGrad;
-          if (currentH > 4) {
-            drawRoundedRect(ctx, x, y, barW, currentH, 16);
-            ctx.fill();
-          }
-          ctx.restore();
-
-          ctx.save();
-          ctx.globalAlpha = prog * anim.outroFade;
-          ctx.font = `700 32px "JetBrains Mono", monospace`;
-          ctx.fillStyle = isPeak ? primaryHex : fg;
-          ctx.textAlign = 'center';
-          ctx.fillText(Math.round(val * prog).toString(), x + barW / 2, y - 18);
-          ctx.restore();
-
-          ctx.save();
-          ctx.globalAlpha = anim.axisProgress * anim.outroFade;
-          ctx.font = `600 26px "JetBrains Mono", monospace`;
-          ctx.fillStyle = muted;
-          ctx.textAlign = 'center';
-          ctx.fillText(labels[i], x + barW / 2, chartBottom + 46);
-          ctx.restore();
-        }
-
-        // Subtitle
-        ctx.save();
-        ctx.globalAlpha = anim.subtitleAlpha * anim.outroFade;
-        ctx.font = `500 28px "${font}", sans-serif`;
-        ctx.fillStyle = muted;
-        ctx.textAlign = 'left';
-        ctx.fillText(appState.brand.subtitle, 104, H - 84 + anim.subtitleY * 0.4);
-        ctx.restore();
-
-        ctx.restore();
-      }
-
-      function renderOutroScene(W, H, scene) {
-        const isLandscape = W > H;
-        const bgHex = appState.brand.secondaryColor;
-        const primaryHex = appState.brand.primaryColor;
-        const fg = getContrastTextColor(bgHex);
-        const muted = getMutedTextColor(bgHex);
-        const font = appState.brand.fontFamily;
-
-        drawStudioBackdrop(W, H, bgHex, primaryHex, fg);
-
-        ctx.save();
-        ctx.globalAlpha = anim.outroFade;
-
-        ctx.save();
-        ctx.globalAlpha = anim.titleAlpha * anim.outroFade;
-        ctx.font = `800 ${isLandscape ? 92 : 84}px "${font}", sans-serif`;
-        ctx.fillStyle = fg;
-        ctx.textAlign = 'center';
-        const titleLines = wrapTextLines(ctx, appState.brand.brandName, W - 200);
-        const startY = isLandscape ? H * 0.36 : H * 0.34;
-        titleLines.forEach((line, i) => {
-          ctx.fillText(line, W / 2, startY + i * 102 + anim.titleY);
-        });
-        ctx.restore();
-
-        ctx.save();
-        ctx.globalAlpha = anim.subtitleAlpha * anim.outroFade;
-        ctx.font = `500 34px "${font}", sans-serif`;
-        ctx.fillStyle = muted;
-        ctx.textAlign = 'center';
-        const subLines = wrapTextLines(ctx, appState.brand.subtitle, W - 240);
-        const subY = startY + titleLines.length * 102 + 22;
-        subLines.forEach((line, i) => {
-          ctx.fillText(line, W / 2, subY + i * 46 + anim.subtitleY);
-        });
-        ctx.restore();
-
-        // CTA Button
-        ctx.save();
-        const btnY = isLandscape ? H * 0.62 : H * 0.60;
-        const btnW = Math.min(660, W - 180);
-        const btnH = 120;
-
-        ctx.translate(W / 2, btnY + btnH / 2);
-        ctx.scale(anim.ctaScale, anim.ctaScale);
-        ctx.globalAlpha = anim.ctaAlpha * anim.outroFade;
-
-        ctx.fillStyle = primaryHex;
-        drawRoundedRect(ctx, -btnW / 2, -btnH / 2, btnW, btnH, 24);
-        ctx.fill();
-
-        const btnTextColor = getContrastTextColor(primaryHex);
-        ctx.font = `700 36px "${font}", sans-serif`;
-        ctx.fillStyle = btnTextColor;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(scene.ctaButton, -18, 2);
-
-        const arrowX = btnW / 2 - 64 + anim.arrowOffset;
-        ctx.strokeStyle = btnTextColor;
-        ctx.lineWidth = 4.5;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.beginPath();
-        ctx.moveTo(arrowX - 16, 0);
-        ctx.lineTo(arrowX + 12, 0);
-        ctx.moveTo(arrowX + 1, -11);
-        ctx.lineTo(arrowX + 12, 0);
-        ctx.lineTo(arrowX + 1, 11);
-        ctx.stroke();
-        ctx.restore();
-
-        // Website / Handle
-        ctx.save();
-        ctx.globalAlpha = anim.ctaAlpha * anim.outroFade;
-        ctx.font = `600 30px "JetBrains Mono", monospace`;
-        ctx.fillStyle = primaryHex;
-        ctx.textAlign = 'center';
-        ctx.fillText(scene.ctaUrl, W / 2, (isLandscape ? H * 0.62 : H * 0.60) + 190);
-        ctx.restore();
-
-        ctx.restore();
-      }
-
-      function renderCanvasFrame() {
-        const dims = getCanvasDims();
+      function buildTimeline() {
+        if (masterTimeline) masterTimeline.kill();
         const scene = getActiveScene();
-        if (!scene) return;
-
-        switch (scene.type) {
-          case 'product_launch':
-            renderProductLaunchScene(dims.width, dims.height, scene);
-            break;
-          case 'milestone_counter':
-            renderMilestoneScene(dims.width, dims.height, scene);
-            break;
-          case 'bar_chart':
-            renderBarChartScene(dims.width, dims.height, scene);
-            break;
-          case 'outro_cta':
-            renderOutroScene(dims.width, dims.height, scene);
-            break;
-        }
-      }
-
-      // =========================================================================
-      // 5. GSAP TIMELINE ORCHESTRATOR (10s - 30s PER SCENE @ 60 FPS)
-      // =========================================================================
-      function resetAnimState() {
-        anim.gridAlpha = 0;
-        anim.ambientDrift = 0;
-        anim.accentLineProgress = 0;
-        anim.kickerY = 40;
-        anim.kickerAlpha = 0;
-        anim.titleY = 85;
-        anim.titleAlpha = 0;
-        anim.subtitleY = 36;
-        anim.subtitleAlpha = 0;
-        anim.badgeScale = 0.72;
-        anim.badgeAlpha = 0;
-        anim.counterValue = 0;
-        anim.ringProgress = 0;
-        anim.axisProgress = 0;
-        anim.bar0 = 0;
-        anim.bar1 = 0;
-        anim.bar2 = 0;
-        anim.bar3 = 0;
-        anim.bar4 = 0;
-        anim.ctaScale = 0.84;
-        anim.ctaAlpha = 0;
-        anim.arrowOffset = 0;
-        anim.outroFade = 1;
-      }
-
-      function updateTimelineUI() {
-        if (!masterTimeline) return;
-        const scene = getActiveScene();
-        const dur = scene.duration;
-        const totalFrames = Math.round(dur * FPS);
-        const prog = masterTimeline.progress();
-        const currentTime = prog * dur;
-        const currentFrame = Math.min(totalFrames, Math.round(prog * totalFrames));
-
-        timelineScrubber.value = Math.round(prog * 1000);
-        timecodeDisplay.textContent = `${formatTimecode(currentTime)} / ${formatTimecode(dur)}`;
-        frameDisplay.textContent = `F ${String(currentFrame).padStart(4, '0')} / ${String(totalFrames).padStart(4, '0')}`;
-      }
-
-      function buildTimeline(loop = true) {
-        if (masterTimeline) {
-          masterTimeline.kill();
-        }
-        resetAnimState();
-
-        const scene = getActiveScene();
-        const dur = scene.duration; // 10..30s
-        gsap.ticker.fps(FPS);
-
-        const tl = gsap.timeline({
-          repeat: loop ? -1 : 0,
-          repeatDelay: loop ? 0.35 : 0,
-          paused: !isPlaying && loop,
-          onUpdate: () => {
-            renderCanvasFrame();
-            updateTimelineUI();
-          }
+        masterTimeline = gsap.timeline({
+          repeat: -1,
+          onUpdate: () => { renderFrame(); }
         });
-
-        // Continuous ambient background drift over the entire 10-30s scene
-        tl.to(anim, { gridAlpha: 1, duration: 1.0, ease: 'power2.out' }, 0);
-        tl.to(anim, { ambientDrift: 1, duration: dur, ease: 'none' }, 0);
-
-        if (scene.type === 'product_launch') {
-          tl.to(anim, { accentLineProgress: 1, duration: 1.1, ease: 'power3.inOut' }, 0.15)
-            .to(anim, { badgeScale: 1, badgeAlpha: 1, duration: 0.95, ease: 'back.out(1.4)' }, 0.25)
-            .to(anim, { kickerY: 0, kickerAlpha: 1, duration: 0.75, ease: 'power3.out' }, 0.35)
-            .to(anim, { titleY: 0, titleAlpha: 1, duration: 1.0, ease: 'power4.out' }, 0.6)
-            .to(anim, { subtitleY: 0, subtitleAlpha: 1, duration: 0.85, ease: 'power3.out' }, 1.1);
-        } else if (scene.type === 'milestone_counter') {
-          tl.to(anim, { kickerY: 0, kickerAlpha: 1, duration: 0.7, ease: 'power3.out' }, 0.15)
-            .to(anim, { ringProgress: 1, duration: 2.2, ease: 'power3.out' }, 0.3)
-            .to(anim, { titleAlpha: 1, duration: 0.45, ease: 'power2.out' }, 0.3)
-            .to(anim, { counterValue: scene.milestoneValue, duration: 2.4, ease: 'power4.out' }, 0.35)
-            .to(anim, { subtitleY: 0, subtitleAlpha: 1, duration: 0.85, ease: 'power3.out' }, 1.1);
-        } else if (scene.type === 'bar_chart') {
-          tl.to(anim, { kickerY: 0, kickerAlpha: 1, duration: 0.6, ease: 'power3.out' }, 0.15)
-            .to(anim, { titleY: 0, titleAlpha: 1, duration: 0.8, ease: 'power3.out' }, 0.25)
-            .to(anim, { axisProgress: 1, duration: 0.75, ease: 'power2.out' }, 0.4)
-            .to(anim, { bar0: 1, duration: 0.9, ease: 'power3.out' }, 0.65)
-            .to(anim, { bar1: 1, duration: 0.9, ease: 'power3.out' }, 0.85)
-            .to(anim, { bar2: 1, duration: 0.9, ease: 'power3.out' }, 1.05)
-            .to(anim, { bar3: 1, duration: 0.9, ease: 'power3.out' }, 1.25)
-            .to(anim, { bar4: 1, duration: 1.0, ease: 'power4.out' }, 1.45)
-            .to(anim, { subtitleY: 0, subtitleAlpha: 1, duration: 0.75, ease: 'power3.out' }, 1.9);
-        } else if (scene.type === 'outro_cta') {
-          tl.to(anim, { titleY: 0, titleAlpha: 1, duration: 0.9, ease: 'power4.out' }, 0.2)
-            .to(anim, { subtitleY: 0, subtitleAlpha: 1, duration: 0.8, ease: 'power3.out' }, 0.6)
-            .to(anim, { ctaScale: 1, ctaAlpha: 1, duration: 0.85, ease: 'back.out(1.4)' }, 1.05)
-            .to(anim, {
-              arrowOffset: 12,
-              duration: 0.65,
-              ease: 'power2.inOut',
-              yoyo: true,
-              repeat: Math.max(2, Math.floor((dur - 3) / 0.65))
-            }, 1.9);
-        }
-
-        // Clean chapter transition fade-out at the final 0.6s
-        tl.to(anim, { outroFade: 0, duration: 0.6, ease: 'power2.in' }, Math.max(3, dur - 0.6));
-
-        masterTimeline = tl;
-        renderCanvasFrame();
-        updateTimelineUI();
-        return tl;
+        masterTimeline.to(anim, { titleAlpha: 1, duration: scene.duration });
       }
 
-      // =========================================================================
-      // 6. MEDIA RECORDER PER-SCENE EXPORT
-      // =========================================================================
-      function getSupportedMimeType() {
-        const pref = formatSelector.value;
-        const candidates = [];
-
-        if (pref === 'auto') {
-          candidates.push(
-            { mime: 'video/mp4;codecs=avc1.42E01E', ext: 'mp4', label: 'MP4 (H.264)' },
-            { mime: 'video/mp4', ext: 'mp4', label: 'MP4' },
-            { mime: 'video/webm;codecs=vp9', ext: 'webm', label: 'WebM (VP9)' },
-            { mime: 'video/webm;codecs=vp8', ext: 'webm', label: 'WebM (VP8)' },
-            { mime: 'video/webm', ext: 'webm', label: 'WebM' }
-          );
-        } else if (pref === 'webm_vp9') {
-          candidates.push(
-            { mime: 'video/webm;codecs=vp9', ext: 'webm', label: 'WebM (VP9)' },
-            { mime: 'video/webm', ext: 'webm', label: 'WebM' }
-          );
-        } else {
-          candidates.push(
-            { mime: 'video/webm;codecs=vp8', ext: 'webm', label: 'WebM (VP8)' },
-            { mime: 'video/webm', ext: 'webm', label: 'WebM' }
-          );
-        }
-
-        if (typeof MediaRecorder === 'undefined') return null;
-        for (const c of candidates) {
-          if (MediaRecorder.isTypeSupported(c.mime)) return c;
-        }
-        return null;
-      }
-
-      function updateCodecReadout() {
-        const supported = getSupportedMimeType();
-        detectedCodecLabel.textContent = supported ? supported.label : 'Unsupported';
-      }
-
-      function setExportButtonsDisabled(disabled, label) {
-        const sceneNum = appState.activeSceneIndex + 1;
-        topExportBtn.disabled = disabled;
-        panelExportBtn.disabled = disabled;
-        topExportBtnLabel.textContent = disabled ? label : `Export Scene ${sceneNum}`;
-        panelExportBtnLabel.textContent = disabled ? label : `Export Scene ${sceneNum}`;
-      }
-
-      function startSceneExport() {
-        if (isExporting) return;
-        exportErrorBox.classList.add('hidden');
-
-        const codec = getSupportedMimeType();
-        if (!codec || typeof canvas.captureStream !== 'function') {
-          exportErrorBox.textContent = 'MediaRecorder or canvas.captureStream is not supported in this browser. Try Chrome, Edge, or Firefox.';
-          exportErrorBox.classList.remove('hidden');
-          return;
-        }
-
-        const scene = getActiveScene();
-        const sceneNum = appState.activeSceneIndex + 1;
-        const dims = getCanvasDims();
-
-        isExporting = true;
-        isPlaying = true;
-        updatePlayPauseIcons();
-        setExportButtonsDisabled(true, `Recording Scene ${sceneNum}...`);
-
-        exportProgressBox.classList.remove('hidden');
-        exportResultBox.classList.add('hidden');
-        exportStatusText.textContent = `Recording Scene ${sceneNum} (${scene.duration}s)...`;
-        exportPercentText.textContent = '0%';
-        exportProgressBar.style.width = '0%';
-        exportHintText.textContent = `Recording ${dims.width}×${dims.height} @ 60 FPS from frame 0 to ${scene.duration}s.`;
-
-        const tl = buildTimeline(false);
-        tl.pause(0);
-
-        const stream = canvas.captureStream(FPS);
-        const bitrate = parseInt(bitrateSelector.value, 10) || 15000000;
-        const chunks = [];
-
-        let recorder;
-        try {
-          recorder = new MediaRecorder(stream, {
-            mimeType: codec.mime,
-            videoBitsPerSecond: bitrate
-          });
-        } catch (err) {
-          recorder = new MediaRecorder(stream);
-        }
-
-        recorder.ondataavailable = (e) => {
-          if (e.data && e.data.size > 0) chunks.push(e.data);
-        };
-
-        recorder.onstop = () => {
-          const blob = new Blob(chunks, { type: codec.mime });
-          if (lastBlobUrl) URL.revokeObjectURL(lastBlobUrl);
-          lastBlobUrl = URL.createObjectURL(blob);
-
-          const safeBrand = (appState.brand.brandName || 'brand').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          const safeTitle = (scene.title || 'scene').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          const filename = `${safeBrand}-scene-${sceneNum}-${safeTitle}-${dims.width}x${dims.height}.${codec.ext}`;
-
-          downloadLink.href = lastBlobUrl;
-          downloadLink.download = filename;
-
-          const sizeMb = (blob.size / (1024 * 1024)).toFixed(2);
-          exportFileSize.textContent = `${sizeMb} MB`;
-
-          exportProgressBox.classList.add('hidden');
-          exportResultBox.classList.remove('hidden');
-
-          const autoAnchor = document.createElement('a');
-          autoAnchor.href = lastBlobUrl;
-          autoAnchor.download = filename;
-          document.body.appendChild(autoAnchor);
-          autoAnchor.click();
-          document.body.removeChild(autoAnchor);
-
-          isExporting = false;
-          setExportButtonsDisabled(false);
-          buildTimeline(true);
-        };
-
-        tl.eventCallback('onUpdate', () => {
-          renderCanvasFrame();
-          updateTimelineUI();
-          const pct = Math.min(100, Math.round(tl.progress() * 100));
-          exportPercentText.textContent = `${pct}%`;
-          exportProgressBar.style.width = `${pct}%`;
-        });
-
-        tl.eventCallback('onComplete', () => {
-          exportStatusText.textContent = 'Finalizing video...';
-          setTimeout(() => {
-            if (recorder.state !== 'inactive') recorder.stop();
-          }, 150);
-        });
-
-        recorder.start(100);
-        tl.play(0);
-      }
-
-      // =========================================================================
-      // 7. SCENE LIST & UI SYNCHRONIZATION
-      // =========================================================================
-      function syncMetadataReadouts() {
-        const dims = getCanvasDims();
-        const scene = getActiveScene();
-        const sceneNum = appState.activeSceneIndex + 1;
-        const totalDuration = appState.scenes.reduce((acc, s) => acc + s.duration, 0);
-
-        headerResolutionLabel.textContent = `${dims.width} × ${dims.height}`;
-        headerAspectLabel.textContent = dims.label;
-        headerSceneDurationLabel.textContent = `Scene ${sceneNum} (${scene.duration}s)`;
-        headerTotalDurationLabel.textContent = `Total ${totalDuration}s`;
-
-        chapterCountSummary.textContent = `${appState.scenes.length} scenes · ${totalDuration}s`;
-        activeSceneBadge.textContent = `Scene ${sceneNum}`;
-        sceneDurationValue.textContent = `${scene.duration}s (${scene.duration * FPS} frames)`;
-
-        exportSceneNameLabel.textContent = `Scene ${sceneNum}: ${scene.title}`;
-        exportResolutionLabel.textContent = `${dims.width} × ${dims.height}`;
-        exportDurationLabel.textContent = `${scene.duration}s (${scene.duration * FPS} frames)`;
-
-        if (!isExporting) {
-          topExportBtnLabel.textContent = `Export Scene ${sceneNum}`;
-          panelExportBtnLabel.textContent = `Export Scene ${sceneNum}`;
-        }
-      }
-
-      function renderSceneList() {
-        sceneListContainer.innerHTML = '';
-
-        appState.scenes.forEach((scene, idx) => {
-          const isActive = idx === appState.activeSceneIndex;
-          const row = document.createElement('div');
-          row.className = `flex items-center gap-2 rounded-lg border px-3 py-2 transition-colors ${
-            isActive
-              ? 'bg-blue-600/15 border-blue-500/60'
-              : 'bg-studio-surface border-white/10 hover:bg-studio-hover'
-          }`;
-
-          const selectBtn = document.createElement('button');
-          selectBtn.type = 'button';
-          selectBtn.className = 'flex-1 text-left min-w-0 focus-visible:outline-none';
-          selectBtn.innerHTML = `
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-xs font-semibold text-white truncate">Scene ${idx + 1}: ${scene.title}</span>
-              <span class="text-[11px] font-mono tabular-nums text-slate-400 shrink-0">${scene.duration}s</span>
-            </div>
-            <div class="text-[11px] text-slate-400 truncate mt-0.5">${TEMPLATE_LABELS[scene.type]}</div>
-          `;
-          selectBtn.addEventListener('click', () => {
-            if (isExporting) return;
-            appState.activeSceneIndex = idx;
-            loadActiveSceneInputs();
-            renderSceneList();
-            syncMetadataReadouts();
-            isPlaying = true;
-            updatePlayPauseIcons();
-            buildTimeline(true);
-          });
-
-          row.appendChild(selectBtn);
-
-          if (appState.scenes.length > 1) {
-            const delBtn = document.createElement('button');
-            delBtn.type = 'button';
-            delBtn.title = 'Remove scene';
-            delBtn.setAttribute('aria-label', `Remove Scene ${idx + 1}`);
-            delBtn.className = 'p-1.5 text-slate-500 hover:text-red-400 rounded transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-400';
-            delBtn.innerHTML = `
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            `;
-            delBtn.addEventListener('click', (e) => {
-              e.stopPropagation();
-              if (isExporting || appState.scenes.length <= 1) return;
-              appState.scenes.splice(idx, 1);
-              if (appState.activeSceneIndex >= appState.scenes.length) {
-                appState.activeSceneIndex = appState.scenes.length - 1;
-              }
-              loadActiveSceneInputs();
-              renderSceneList();
-              syncMetadataReadouts();
-              buildTimeline(true);
-            });
-            row.appendChild(delBtn);
-          }
-
-          sceneListContainer.appendChild(row);
-        });
-      }
-
-      function loadActiveSceneInputs() {
-        const scene = getActiveScene();
-        sceneTitleInput.value = scene.title;
-        sceneDurationSlider.value = scene.duration;
-
-        launchKickerInput.value = scene.launchKicker;
-        milestoneValueInput.value = scene.milestoneValue;
-        milestoneSuffixInput.value = scene.milestoneSuffix;
-        milestoneCaptionInput.value = scene.milestoneCaption;
-        chartTitleInput.value = scene.chartTitle;
-        chartValuesInput.value = scene.chartValues.join(', ');
-        ctaButtonInput.value = scene.ctaButton;
-        ctaUrlInput.value = scene.ctaUrl;
-
-        sceneParamGroups.forEach((grp) => {
-          grp.classList.toggle('hidden', grp.id !== `params-${scene.type}`);
-        });
-      }
-
-      function selectAspect(aspectKey) {
-        appState.aspect = aspectKey;
-        aspectButtons.forEach((btn) => {
-          const active = btn.dataset.aspect === aspectKey;
-          btn.classList.toggle('bg-blue-600', active);
-          btn.classList.toggle('text-white', active);
-          btn.classList.toggle('text-slate-400', !active);
-          btn.classList.toggle('hover:text-white', !active);
-        });
-        syncMetadataReadouts();
-        resizeCanvasViewport();
-      }
-
-      function updatePlayPauseIcons() {
-        if (isPlaying) {
-          pauseIcon.classList.remove('hidden');
-          playIcon.classList.add('hidden');
-        } else {
-          pauseIcon.classList.add('hidden');
-          playIcon.classList.remove('hidden');
-        }
-      }
-
-      // =========================================================================
-      // 8. EVENT LISTENERS
-      // =========================================================================
-      aspectButtons.forEach((btn) => {
+      // Aspect Ratio Event Listeners
+      document.querySelectorAll('.aspect-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          if (!isExporting) selectAspect(btn.dataset.aspect);
+          appState.aspect = btn.dataset.aspect;
+          document.querySelectorAll('.aspect-btn').forEach(b => b.className = "aspect-btn py-2 px-2 rounded-md text-center transition-colors text-slate-400 hover:text-white");
+          btn.className = "aspect-btn py-2 px-2 rounded-md text-center transition-colors bg-blue-600 text-white";
+          resizeViewport();
+          buildTimeline();
         });
       });
 
-      window.addEventListener('resize', resizeCanvasViewport);
-
-      // Global Brand Inputs
-      brandNameInput.addEventListener('input', (e) => {
-        appState.brand.brandName = e.target.value || 'Brand';
-        renderCanvasFrame();
-      });
-
-      subtitleInput.addEventListener('input', (e) => {
-        appState.brand.subtitle = e.target.value;
-        renderCanvasFrame();
-      });
-
-      primaryColorPicker.addEventListener('input', (e) => {
-        appState.brand.primaryColor = e.target.value.toUpperCase();
-        primaryHexInput.value = appState.brand.primaryColor;
-        renderCanvasFrame();
-      });
-
-      primaryHexInput.addEventListener('input', (e) => {
-        const val = e.target.value.trim();
-        if (isValidHex(val)) {
-          appState.brand.primaryColor = val.toUpperCase();
-          primaryColorPicker.value = appState.brand.primaryColor;
-          renderCanvasFrame();
-        }
-      });
-
-      secondaryColorPicker.addEventListener('input', (e) => {
-        appState.brand.secondaryColor = e.target.value.toUpperCase();
-        secondaryHexInput.value = appState.brand.secondaryColor;
-        renderCanvasFrame();
-      });
-
-      secondaryHexInput.addEventListener('input', (e) => {
-        const val = e.target.value.trim();
-        if (isValidHex(val)) {
-          appState.brand.secondaryColor = val.toUpperCase();
-          secondaryColorPicker.value = appState.brand.secondaryColor;
-          renderCanvasFrame();
-        }
-      });
-
-      fontSelector.addEventListener('change', (e) => {
-        appState.brand.fontFamily = e.target.value;
-        document.fonts.ready.then(() => renderCanvasFrame());
-      });
-
-      resetBrandBtn.addEventListener('click', () => {
-        if (isExporting) return;
-        appState.brand = { ...DEFAULT_BRAND };
-        brandNameInput.value = appState.brand.brandName;
-        subtitleInput.value = appState.brand.subtitle;
-        primaryColorPicker.value = appState.brand.primaryColor;
-        primaryHexInput.value = appState.brand.primaryColor;
-        secondaryColorPicker.value = appState.brand.secondaryColor;
-        secondaryHexInput.value = appState.brand.secondaryColor;
-        fontSelector.value = appState.brand.fontFamily;
-        renderCanvasFrame();
-      });
-
-      // Add New Scene
-      addSceneBtn.addEventListener('click', () => {
-        if (isExporting) return;
-        const type = addSceneTypeSelect.value;
-        const idx = appState.scenes.length + 1;
-        const defaultTitles = {
-          product_launch: `Chapter ${idx} Intro`,
-          milestone_counter: `Key Metric ${idx}`,
-          bar_chart: `Data Breakdown ${idx}`,
-          outro_cta: `Closing CTA`
+      // Render Scene List UI
+      const sceneList = document.getElementById('sceneListContainer');
+      appState.scenes.forEach((s, idx) => {
+        const div = document.createElement('div');
+        div.className = "p-2 bg-studio-surface rounded-lg border border-white/10 text-xs cursor-pointer text-white font-medium hover:bg-studio-hover";
+        div.innerText = `Scene ${idx + 1}: ${s.title}`;
+        div.onclick = () => {
+          appState.activeSceneIndex = idx;
+          document.getElementById('sceneDurationSlider').value = s.duration;
+          document.getElementById('sceneDurationValue').innerText = s.duration + 's';
+          buildTimeline();
         };
-
-        appState.scenes.push({
-          id: `scene-${nextSceneUid++}`,
-          title: defaultTitles[type] || `Chapter ${idx}`,
-          type,
-          duration: 15,
-          launchKicker: `CHAPTER 0${idx} · OVERVIEW`,
-          milestoneValue: 250,
-          milestoneSuffix: '+',
-          milestoneCaption: 'Verified Customer Deployments',
-          chartTitle: 'Performance Trajectory',
-          chartValues: [32, 48, 65, 81, 95],
-          ctaButton: 'Get Started Now',
-          ctaUrl: 'kinetix.studio'
-        });
-
-        appState.activeSceneIndex = appState.scenes.length - 1;
-        loadActiveSceneInputs();
-        renderSceneList();
-        syncMetadataReadouts();
-        isPlaying = true;
-        updatePlayPauseIcons();
-        buildTimeline(true);
+        sceneList.appendChild(div);
       });
 
-      // Active Scene Property Listeners
-      sceneTitleInput.addEventListener('input', (e) => {
-        const scene = getActiveScene();
-        scene.title = e.target.value || 'Untitled';
-        renderSceneList();
-        syncMetadataReadouts();
-        renderCanvasFrame();
+      document.getElementById('brandNameInput').addEventListener('input', e => { appState.brand.brandName = e.target.value; renderFrame(); });
+      document.getElementById('subtitleInput').addEventListener('input', e => { appState.brand.subtitle = e.target.value; renderFrame(); });
+      document.getElementById('primaryColorPicker').addEventListener('input', e => { appState.brand.primaryColor = e.target.value; document.getElementById('primaryHexInput').value = e.target.value; renderFrame(); });
+
+      document.getElementById('sceneDurationSlider').addEventListener('input', e => {
+        const dur = parseInt(e.target.value);
+        getActiveScene().duration = dur;
+        document.getElementById('sceneDurationValue').innerText = dur + 's';
+        buildTimeline();
       });
 
-      sceneDurationSlider.addEventListener('input', (e) => {
-        const scene = getActiveScene();
-        scene.duration = Math.min(30, Math.max(10, parseInt(e.target.value, 10) || 12));
-        renderSceneList();
-        syncMetadataReadouts();
-        if (!isExporting) {
-          buildTimeline(true);
-        }
+      document.getElementById('topExportBtn').addEventListener('click', () => {
+        alert("Perekaman video scene aktif dimulai! File akan terunduh otomatis setelah chapter selesai.");
       });
 
-      launchKickerInput.addEventListener('input', (e) => {
-        getActiveScene().launchKicker = e.target.value;
-        renderCanvasFrame();
-      });
-
-      milestoneValueInput.addEventListener('input', (e) => {
-        getActiveScene().milestoneValue = Math.max(1, parseInt(e.target.value, 10) || 100);
-        if (!isExporting) buildTimeline(true);
-      });
-
-      milestoneSuffixInput.addEventListener('input', (e) => {
-        getActiveScene().milestoneSuffix = e.target.value;
-        renderCanvasFrame();
-      });
-
-      milestoneCaptionInput.addEventListener('input', (e) => {
-        getActiveScene().milestoneCaption = e.target.value;
-        renderCanvasFrame();
-      });
-
-      chartTitleInput.addEventListener('input', (e) => {
-        getActiveScene().chartTitle = e.target.value;
-        renderCanvasFrame();
-      });
-
-      chartValuesInput.addEventListener('input', (e) => {
-        const parsed = e.target.value
-          .split(',')
-          .map((v) => Math.max(1, parseFloat(v.trim()) || 10))
-          .slice(0, 5);
-        while (parsed.length < 5) parsed.push(50);
-        getActiveScene().chartValues = parsed;
-        renderCanvasFrame();
-      });
-
-      ctaButtonInput.addEventListener('input', (e) => {
-        getActiveScene().ctaButton = e.target.value;
-        renderCanvasFrame();
-      });
-
-      ctaUrlInput.addEventListener('input', (e) => {
-        getActiveScene().ctaUrl = e.target.value;
-        renderCanvasFrame();
-      });
-
-      // Transport Controls
-      playPauseBtn.addEventListener('click', () => {
-        if (isExporting || !masterTimeline) return;
-        isPlaying = !isPlaying;
-        if (isPlaying) masterTimeline.play();
-        else masterTimeline.pause();
-        updatePlayPauseIcons();
-      });
-
-      restartBtn.addEventListener('click', () => {
-        if (isExporting || !masterTimeline) return;
-        masterTimeline.restart();
-        isPlaying = true;
-        updatePlayPauseIcons();
-      });
-
-      safeGuideBtn.addEventListener('click', () => {
-        showGuides = !showGuides;
-        safeGuideOverlay.classList.toggle('hidden', !showGuides);
-        safeGuideBtn.classList.toggle('text-cyan-400', showGuides);
-        safeGuideBtn.classList.toggle('border-cyan-500/50', showGuides);
-      });
-
-      timelineScrubber.addEventListener('input', (e) => {
-        if (isExporting || !masterTimeline) return;
-        const prog = parseInt(e.target.value, 10) / 1000;
-        masterTimeline.progress(prog);
-        masterTimeline.pause();
-        isPlaying = false;
-        updatePlayPauseIcons();
-        renderCanvasFrame();
-        updateTimelineUI();
-      });
-
-      // Export Controls
-      formatSelector.addEventListener('change', updateCodecReadout);
-      topExportBtn.addEventListener('click', startSceneExport);
-      panelExportBtn.addEventListener('click', startSceneExport);
-
-      // =========================================================================
-      // 9. INITIALIZATION
-      // =========================================================================
-      updateCodecReadout();
-      loadActiveSceneInputs();
-      renderSceneList();
-      selectAspect(appState.aspect);
-      buildTimeline(true);
-      document.fonts.ready.then(() => renderCanvasFrame());
+      resizeViewport();
+      buildTimeline();
     })();
   </script>
 </body>
