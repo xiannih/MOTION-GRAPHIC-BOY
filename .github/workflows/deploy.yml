@@ -2,7 +2,11 @@ name: Deploy Vite App to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # Ganti ke 'master' jika branch default repo lo master
+    branches: [ main ]
+
+# TAMBAHKAN BLOK PERMISSIONS INI BIAR GAK GAGAL LAGI
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
